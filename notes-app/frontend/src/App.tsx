@@ -9,9 +9,7 @@ import CreatePage from "./pages/CreatePage";
 
 const App = () => {
   return (
-    <div data-theme="cupcake">
-      <button className="btn btn-primary">click me</button>
-      <button className="btn btn-secondary">click me</button>
+    <div data-theme="dark">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreatePage />} />
