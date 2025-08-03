@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
+// import axios from "axios";
+// import toast from "react-hot-toast";
 
 import Navbar from "../components/Navbar";
 import RateLimitedUi from "../components/RateLimitedUi";
 import NoteCard from "../components/NoteCard";
+import axiosInstance from "../lib/axios";
 
 type Notes = { title: string; id: number };
 
@@ -16,9 +17,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axios.get(
-          "https://jsonplaceholder.typicode.com/todos"
-        );
+        const res = await axiosInstance.get("");
 
         setNotes(res.data.slice(0, 3));
 
@@ -31,13 +30,6 @@ const HomePage = () => {
         if (error instanceof Error) {
           console.log(error.message);
         }
-
-        // !
-        // if (error.res.status === 429) {
-        //   setIsRateLimited(true);
-        // } else {
-        //   toast.error("Failed to load notes");
-        // }
       } finally {
         setIsLoading(false);
       }
@@ -57,8 +49,8 @@ const HomePage = () => {
 
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {notes.map((note) => (
-              <NoteCard key={note._id} note={note} />
+            {notes.map((note, index) => (
+              <NoteCard key={index} note={note} />
             ))}
           </div>
         )}

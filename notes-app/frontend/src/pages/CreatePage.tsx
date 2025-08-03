@@ -1,13 +1,40 @@
 import { ArrowLeftIcon } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
 
 const CreatePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  function handleSubmit() {}
+  const navigate = useNavigate();
+
+  function handleSubmit(e: any) {
+    e.preventDefault();
+
+    if (!title.trim() || !content.trim()) {
+      toast.error("All fields are required");
+
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      console.log({ title, content });
+
+      toast.success("Note created successfully");
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Failed to create note!");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-base-200 ">
@@ -33,13 +60,26 @@ const CreatePage = () => {
                     onChange={(e) => setTitle(e.target.value)}
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Creating..." : "Create Note"}
-                </button>
+                <div className="form-control mb-4">
+                  <label className="label">
+                    <span className="label-text">Content</span>
+                  </label>
+                  <textarea
+                    placeholder="Write your note here..."
+                    className="textarea textarea-bordered h-32 w-full"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="card-actions justify-end">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Creating..." : "Create Note"}
+                  </button>
+                </div>
               </form>
             </div>
           </div>

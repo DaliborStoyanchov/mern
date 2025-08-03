@@ -2,11 +2,11 @@ import { PenSquareIcon, Trash2Icon } from "lucide-react";
 import { Link } from "react-router";
 import { formatDate } from "../lib/utils";
 
-const NoteCard = ({ note }) => {
+const NoteCard = ({ note }: any) => {
   return (
     <Link
       to={`/note/${note._id}`}
-      className="card bg-base-100 hover:shadow-2xl transition-all duration-200 border-solid border-t-2 border-[#605DFF] "
+      className="card bg-base-100 hover:shadow-xl transition-all duration-200 border-solid border-t-2 border-[#605DFF] "
     >
       <div className="card-body">
         <h3 className="card-title text-base-content">{note.title}</h3>
