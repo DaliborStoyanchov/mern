@@ -6,8 +6,10 @@ const app = express();
 
 connectDB();
 
+const PORT = process.env.PORT || 5001;
+
 app.use("/api/notes", notesRoutes);
 
-app.listen(5001, () => {
-  console.log("Server is up and running at PORT: 5001");
+app.listen(PORT, () => {
+  console.log(`Server is up and running at PORT: ${PORT}`);
 });
