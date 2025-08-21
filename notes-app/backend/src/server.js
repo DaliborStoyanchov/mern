@@ -5,14 +5,14 @@ import rateLimiter from "./middleware/rateLimiter.js";
 
 const app = express();
 
-connectDB();
-
 const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(rateLimiter);
 app.use("/api/notes", notesRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is up and running at PORT: ${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is up and running at PORT: ${PORT}`);
+  });
 });
