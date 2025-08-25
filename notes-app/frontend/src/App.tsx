@@ -1,6 +1,3 @@
-// 1. pages
-// 2.
-
 import { Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
 import NoteDetailPage from "./pages/NoteDetailPage";
