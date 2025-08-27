@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-// import axios from "axios";
-// import toast from "react-hot-toast";
-
 import Navbar from "../components/Navbar";
 import RateLimitedUi from "../components/RateLimitedUi";
 import NoteCard from "../components/NoteCard";
-import axiosInstance from "../lib/axios";
+// import axiosInstance from "../lib/axios";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 type Notes = { title: string; id: number };
 
@@ -17,19 +16,18 @@ const HomePage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axiosInstance.get("");
-
-        setNotes(res.data.slice(0, 3));
-
-        setIsRateLimited(false);
+        const res = await axios.get("http://localhost:5001/api/notes");
 
         console.log(res.data.slice(0, 3));
-      } catch (error) {
-        console.log("Error fetching notes");
 
-        if (error instanceof Error) {
-          console.log(error.message);
+        setNotes(res.data.slice(0, 3));
+      } catch (error) {
+        if (error.response?.status === 429) {
+          setIsRateLimited(true);
+        } else {
+          toast.error("Failed to load notes");
         }
+        console.log("Error fetching notes");
       } finally {
         setIsLoading(false);
       }
