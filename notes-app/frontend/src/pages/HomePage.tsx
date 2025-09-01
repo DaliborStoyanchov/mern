@@ -6,7 +6,7 @@ import NoteCard from "../components/NoteCard";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-type Notes = { title: string; id: number };
+type Notes = { title: string; _id: number; createdAt: string };
 
 const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -20,13 +20,16 @@ const HomePage = () => {
 
         console.log(res.data.slice(0, 3));
 
-        setNotes(res.data.slice(0, 3));
-      } catch (error) {
+        setNotes(res.data);
+      } catch (error: any) {
+        console.log(error);
+
         if (error.response?.status === 429) {
           setIsRateLimited(true);
         } else {
           toast.error("Failed to load notes");
         }
+
         console.log("Error fetching notes");
       } finally {
         setIsLoading(false);
@@ -47,8 +50,8 @@ const HomePage = () => {
 
         {notes.length > 0 && !isRateLimited && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {notes.map((note, index) => (
-              <NoteCard key={index} note={note} />
+            {notes.map((note) => (
+              <NoteCard key={note._id} note={note} />
             ))}
           </div>
         )}
