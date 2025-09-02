@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import RateLimitedUi from "../components/RateLimitedUi";
 import NoteCard from "../components/NoteCard";
-// import axiosInstance from "../lib/axios";
-import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../lib/axios";
 
 type Notes = { title: string; _id: number; createdAt: string };
 
@@ -16,7 +15,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/notes");
+        const res = await api.get("/notes");
 
         console.log(res.data);
 
