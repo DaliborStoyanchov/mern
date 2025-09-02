@@ -1,3 +1,4 @@
+import axios from "axios";
 import { ArrowLeftIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -10,7 +11,7 @@ const CreatePage = () => {
 
   const navigate = useNavigate();
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) {
@@ -22,15 +23,23 @@ const CreatePage = () => {
     setIsLoading(true);
 
     try {
-      console.log({ title, content });
+      await axios.post("http://localhost:5001/api/notes", {
+        title,
+        content,
+      });
 
       toast.success("Note created successfully");
 
       navigate("/");
-    } catch (error) {
-      console.log(error);
-
-      toast.error("Failed to create note!");
+    } catch (error: any) {
+      if (error.response.status === 429) {
+        toast.error("Too many requests, try again in a minute", {
+          duration: 4000,
+          icon: "💀",
+        });
+      } else {
+        toast.error("Failed to create note!");
+      }
     } finally {
       setIsLoading(false);
     }
