@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import toast from "react-hot-toast";
 
 import api from "../lib/axios.ts";
-import { LoaderIcon } from "lucide-react";
+import { ArrowLeftIcon, LoaderIcon, Trash2Icon } from "lucide-react";
+
+type Note = { title?: string; content?: string };
 
 const NoteDetailPage = () => {
-  const [note, setNote] = useState(null);
+  const [note, setNote] = useState<null | Note>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -20,8 +22,6 @@ const NoteDetailPage = () => {
         const res = await api.get(`/notes/${id}`);
 
         setNote(res.data);
-
-        console.log(res.data);
       } catch (error: any) {
         console.log("Error in NoteDetailPage", error);
         toast.error("Failed to fetch the note");
@@ -33,6 +33,8 @@ const NoteDetailPage = () => {
     fetchNote();
   }, [id]);
 
+  const handleDelete = () => {};
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-base-200 flex items-center justify-center">
@@ -42,8 +44,52 @@ const NoteDetailPage = () => {
   }
 
   return (
-    <div>
-      <p>NOTE</p>
+    <div className="min-h-screen bg-base-200">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <Link to="/" className="btn btn-ghost">
+              <ArrowLeftIcon className="h-5 w-5" />
+              Back to notes
+            </Link>
+            <button
+              className="btn btn-error btn-outline"
+              onClick={handleDelete}
+            >
+              <Trash2Icon className="h-5 w-5" />
+              Delete Note
+            </button>
+          </div>
+          <div className="card bg-base-100">
+            <div className="card-body">
+              <div className="form-control mb-4 flex flex-col">
+                <label htmlFor="" className="label">
+                  <span className="label-text">Title</span>
+                </label>
+                <input
+                  type="text"
+                  value={note?.title}
+                  className="input input-bordered w-full"
+                  onChange={(e) => setNote({ ...note, title: e.target.value })}
+                />
+              </div>
+              <div className="form-control mb-4 flex flex-col">
+                <label htmlFor="" className="label">
+                  <span className="label-text">Content</span>
+                </label>
+                <textarea
+                  placeholder="Write your note here..."
+                  value={note?.content}
+                  className="textarea textarea-bordered h-32 w-full"
+                  onChange={(e) =>
+                    setNote({ ...note, content: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
