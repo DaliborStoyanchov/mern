@@ -33,7 +33,23 @@ const NoteDetailPage = () => {
     fetchNote();
   }, [id]);
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this note?")) return;
+
+    try {
+      await api.delete(`/notes/${id}`);
+
+      toast.success("Note deleted");
+
+      navigate("/");
+    } catch (error) {
+      console.log("Error deleting the note", error);
+
+      toast.error("Failed to delete note");
+    }
+  };
+
+  const handleSave = () => {};
 
   if (isLoading) {
     return (
@@ -85,6 +101,15 @@ const NoteDetailPage = () => {
                     setNote({ ...note, content: e.target.value })
                   }
                 />
+              </div>
+              <div className="card-actions justify-end">
+                <button
+                  className="btn btn-primary"
+                  disabled={isSaving}
+                  onClick={handleSave}
+                >
+                  {isSaving ? "Saving..." : "Save Changes"}
+                </button>
               </div>
             </div>
           </div>
