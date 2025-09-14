@@ -37,7 +37,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen ">
       {isRateLimited && <RateLimitedUi />}
 
       <div className="max-w-7xl mx-auto p-4 mt-6">
