@@ -1,10 +1,13 @@
+import "./App.css";
+import { Outlet } from "react-router-dom";
+
 function App() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline text-blue-600">
-        Hello, Tailwind + Vite + React + TypeScript!
-      </h1>
-    </div>
+    <>
+      <main className="min-h-screen max-w-screen-2xl mx-auto px-4 py-6 font-primary">
+        <Outlet />
+      </main>
+    </>
   );
 }
 
