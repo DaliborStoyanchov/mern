@@ -1,16 +1,11 @@
+/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      colors: {
-        primary: "#FFCE1A",
-        secondary: "#0D0842",
-        "bg-color": "#F3F3F3",
-        favorite: "#FF5841",
-      },
       fontFamily: {
-        primary: ["Montserrat", "sans-serif"],
-        secondary: ["Nunito Sans", "sans-serif"],
+        sans: ["Montserrat", "ui-sans-serif", "system-ui"],
+        secondary: ["Roboto", "ui-sans-serif", "system-ui"],
       },
     },
   },
