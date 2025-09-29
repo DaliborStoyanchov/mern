@@ -7,11 +7,18 @@ import {
 } from "react-icons/hi2";
 import { IoSearchOutline } from "react-icons/io5";
 
+import avatarImg from "../../assets/avatar.png";
+import { useState } from "react";
+
 const Navbar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // console.log(isDropdownOpen);
+
   const currentUser = true;
 
   return (
-    <header className="max-w-screen-2xl mx-auto px-4 py-6">
+    <header className="max-w-screen-2xl mx-auto lg:px-24 md:px-12 px-6 py-6">
       <nav className="flex justify-between items-center">
         <div className="flex items-center md:gap-16 gap-4">
           <Link to="/">
@@ -22,16 +29,21 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="What are you looking for?"
-              className="bg-[#EAEAEA] w-full py-1 md:px-8 px-6 rounded-md focus:outline-none"
+              className="bg-[#EAEAEA] w-full py-1 px-6 md:px-8 rounded-md focus:outline-none"
             />
           </div>
         </div>
         <div className="relative flex items-center md:space-x-3 space-x-2">
-          <div>
+          <div className="flex items-center">
             {currentUser ? (
-              <Link to="/">
-                <p>user</p>
-              </Link>
+              <button>
+                <img
+                  src={avatarImg}
+                  alt="avatar icon"
+                  className="size-7 rounded-full cursor-pointer"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                />
+              </button>
             ) : (
               <Link to="/">
                 <HiOutlineUser className="size-6" />
