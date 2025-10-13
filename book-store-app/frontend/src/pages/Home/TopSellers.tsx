@@ -1,5 +1,6 @@
-import { Children, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BookCard from "../Books/BookCard";
+import type { Book } from "../../models/Book";
 
 const categories = [
   "Choose a genre",
@@ -10,7 +11,7 @@ const categories = [
 ];
 
 const TopSellers = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("Choose a genre");
 
   useEffect(() => {
@@ -19,11 +20,13 @@ const TopSellers = () => {
       .then((data) => setBooks(data));
   }, []);
 
+  console.log(books);
+
   const filteredBooks =
     selectedCategory === "Choose a genre"
       ? books
       : books.filter(
-          (book) => book.category === selectedCategory.toLowerCase()
+          (book) => book?.category === selectedCategory.toLowerCase()
         );
 
   console.log(filteredBooks);
@@ -45,8 +48,8 @@ const TopSellers = () => {
           ))}
         </select>
       </div>
-      {filteredBooks.map((book, index) => (
-        <BookCard key={index} book={book}>
+      {filteredBooks.map((book) => (
+        <BookCard key={book._id} book={book} />
       ))}
     </div>
   );
