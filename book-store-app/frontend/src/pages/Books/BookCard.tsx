@@ -1,4 +1,9 @@
 import { FiShoppingCart } from "react-icons/fi";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+import "swiper/css/pagination";
+
 import getImgUrl from "../../utils/getImg";
 import type { Book } from "../../models/Book";
 import { Link } from "react-router-dom";
