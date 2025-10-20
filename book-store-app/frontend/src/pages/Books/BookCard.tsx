@@ -1,8 +1,4 @@
 import { FiShoppingCart } from "react-icons/fi";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import "swiper/css";
-import "swiper/css/pagination";
 
 import getImgUrl from "../../utils/getImg";
 import type { Book } from "../../models/Book";
@@ -33,7 +29,7 @@ const BookCard = ({ book }: BookCardProps) => {
           </Link>
           <p className="text-gray-600 mb-5">
             {book.description.length > 80
-              ? `${book.description.slice(0, 80)}...`
+              ? `${book.description.slice(0, 40)}...`
               : book.description}
           </p>
           <p className="font-medium mb-5">

@@ -92,7 +92,7 @@ const Navbar = () => {
           </div>
 
           <button className="hidden sm:block">
-            <HiOutlineHeart className="size-6" />
+            <HiOutlineHeart className="size-6 cursor-pointer" />
           </button>
           <Link
             to="/"
