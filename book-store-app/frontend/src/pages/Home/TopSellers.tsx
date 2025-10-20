@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 import BookCard from "../Books/BookCard";
 import type { Book } from "../../models/Book";
@@ -53,24 +54,22 @@ const TopSellers = () => {
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
-        pagination={{
-          clickable: true,
-        }}
+        navigation={true}
         breakpoints={{
           640: {
-            // slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 20,
           },
-          768: {
-            slidesPerView: 4,
+          1072: {
+            slidesPerView: 2,
             spaceBetween: 40,
           },
-          1024: {
-            slidesPerView: 5,
-            spaceBetween: 50,
+          1600: {
+            slidesPerView: 3,
+            spaceBetween: 40,
           },
         }}
-        modules={[Pagination]}
+        modules={[Navigation, Pagination]}
         className="mySwiper"
       >
         {filteredBooks.length > 0 &&
