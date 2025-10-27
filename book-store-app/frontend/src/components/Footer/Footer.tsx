@@ -1,4 +1,6 @@
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import footerLogo from "../../assets/footer-logo.png";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -47,7 +49,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center mt-10 border-t border-gray-600 pt-6">
-        <ul>
+        <ul className="flex gap-6 mb-4 md:mb-0">
           <li>
             <a href="#" className="hover:text-[#FFCE1A]">
               Privacy Policy
@@ -59,6 +61,25 @@ const Footer = () => {
             </a>
           </li>
         </ul>
+        <div className="flex gap-6">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook size={24} />
+          </a>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer">
+            <FaXTwitter size={24} />
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaInstagram size={24} />
+          </a>
+        </div>
       </div>
     </footer>
   );
