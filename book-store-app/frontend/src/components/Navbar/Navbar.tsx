@@ -32,7 +32,7 @@ const navigation = [
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const currentUser = true;
+  const currentUser = false;
 
   return (
     <header className="max-w-screen-2xl mx-auto lg:px-24 md:px-12 px-6 py-6">
@@ -54,14 +54,13 @@ const Navbar = () => {
           <div>
             {currentUser ? (
               <>
-                <button>
+                <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                   <img
                     src={avatarImg}
                     alt="avatar icon"
                     className={`size-7 rounded-full cursor-pointer ${
                       currentUser ? "ring-2 ring-blue-500" : ""
                     }`}
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   />
                 </button>
                 {isDropdownOpen && (
