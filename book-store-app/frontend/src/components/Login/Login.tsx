@@ -1,6 +1,13 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import { FaGoogle } from "react-icons/fa";
+
 const Login = () => {
+  const [message, setMessage] = useState("MESSAGE !!! TO BE UPDATED");
+
   return (
-    <div className="h-[calc(100vh-120px)] flex justify-center items-center">
+    <div className="h-[calc(100vh-320px)] flex justify-center items-center">
       <div className="w-full max-w-sm mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <h2 className="text-xl font-semibold mb-4">Please Login</h2>
         <form>
@@ -32,7 +39,9 @@ const Login = () => {
               placeholder="Password"
             />
           </div>
-          <p className="text-red-500 text-xs italic mb-8">Message</p>
+          {message && (
+            <p className="text-red-500 text-xs italic mb-8">{message}</p>
+          )}
           <div className="flex flex-wrap space-y-2.5 items-center justify-between">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -42,6 +51,20 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <p className="align-baseline font-medium mt-4 text-sm">
+          Haven't account? Please{" "}
+          <Link to={"/register"} className="text-blue-500 hover:text-blue-700">
+            Register
+          </Link>{" "}
+        </p>
+        <div className="mt-4">
+          <button className="w-full flex flex-wrap gap-1 items-center justify-center bg-[#0D0842] hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none">
+            <FaGoogle className="mr-2" /> Sign in with Google
+          </button>
+        </div>
+        <p className="mt-5 text-center text-gray-500 text-xs">
+          &copy;2025 Book Store. All rights reserved.
+        </p>
       </div>
     </div>
   );
