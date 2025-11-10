@@ -2,15 +2,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { FaGoogle } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
   const [message, setMessage] = useState("MESSAGE !!! TO BE UPDATED");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => console.log(data);
 
   return (
     <div className="h-[calc(100vh-320px)] flex justify-center items-center">
       <div className="w-full max-w-sm mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <h2 className="text-xl font-semibold mb-4">Please Login</h2>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -23,6 +32,8 @@ const Login = () => {
               id="email"
               type="email"
               placeholder="Email Address"
+              defaultValue=""
+              {...register("email", { required: true })}
             />
           </div>
           <div className="mb-6">
@@ -37,6 +48,8 @@ const Login = () => {
               id="password"
               type="password"
               placeholder="Password"
+              defaultValue=""
+              {...register("password", { required: true })}
             />
           </div>
           {message && (
