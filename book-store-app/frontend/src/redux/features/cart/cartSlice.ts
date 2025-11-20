@@ -1,6 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+import type { Book } from "../../../models/Book";
+
+interface CartState {
+  cartItems: Book[];
+}
+
+const initialState: CartState = {
   cartItems: [],
 };
 
@@ -8,9 +14,9 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
+    addToCart: (state: CartState, action: PayloadAction<Book>) => {
       const existingItem = state.cartItems.find(
-        (item) => item._id === action.payload._id
+        (item: Book) => item._id === action.payload._id
       );
 
       if (!existingItem) {
@@ -18,7 +24,7 @@ export const cartSlice = createSlice({
 
         alert("Item added successfully");
       } else {
-        alert("Item alredy exists");
+        alert("Item already exists");
       }
     },
   },
