@@ -9,6 +9,8 @@ import { IoSearchOutline } from "react-icons/io5";
 
 import avatarImg from "../../assets/avatar.png";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import type { Book } from "../../models/Book";
 
 const navigation = [
   {
@@ -29,8 +31,17 @@ const navigation = [
   },
 ];
 
+interface CartState {
+  cartItems: Book[];
+  cart: any;
+}
+
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const cartItems = useSelector((state: CartState) => state.cart.cartItems);
+
+  console.log(cartItems);
 
   const currentUser = false;
 
@@ -94,11 +105,17 @@ const Navbar = () => {
             <HiOutlineHeart className="size-6 cursor-pointer" />
           </button>
           <Link
-            to="/"
+            to="/cart"
             className="bg-[#FFCE1A] p-1 sm:px-6 px-2 flex items-center rounded-sm"
           >
             <HiOutlineShoppingCart className="size-6" />
-            <span className="text-sm font-semibold sm:ml-1">0</span>
+            {cartItems.length > 0 ? (
+              <span className="text-sm font-semibold sm:ml-1">
+                {cartItems.length}
+              </span>
+            ) : (
+              <span className="text-sm font-semibold sm:ml-1">0</span>
+            )}
           </Link>
         </div>
       </nav>

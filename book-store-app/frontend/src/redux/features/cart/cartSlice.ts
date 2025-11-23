@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import type { Book } from "../../../models/Book";
+import Swal from "sweetalert2";
 
 interface CartState {
   cartItems: Book[];
@@ -22,7 +23,13 @@ export const cartSlice = createSlice({
       if (!existingItem) {
         state.cartItems.push(action.payload);
 
-        alert("Item added successfully");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Book added to the Cart",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         alert("Item already exists");
       }
