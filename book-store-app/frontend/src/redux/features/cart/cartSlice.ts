@@ -31,7 +31,23 @@ export const cartSlice = createSlice({
           timer: 1500,
         });
       } else {
-        alert("Item already exists");
+        Swal.fire({
+          title: "Book already in the cart",
+          text: "Do you want to add the book to your cart again?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Add",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Added!",
+              text: "The book has been added to your cart again.",
+              icon: "success",
+            });
+          }
+        });
       }
     },
   },
