@@ -50,8 +50,16 @@ export const cartSlice = createSlice({
         });
       }
     },
+    removeFromCart: (state: CartState, action: PayloadAction<Book>) => {
+      state.cartItems = state.cartItems.filter(
+        (item) => item._id !== action.payload._id
+      );
+    },
+    clearCart: (state: CartState) => {
+      state.cartItems = [];
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
