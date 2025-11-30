@@ -1,6 +1,20 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import type { Book } from "../../models/Book";
+import getImgUrl from "../../utils/getImg";
+
+interface CartState {
+  cartItems: Book[];
+  cart: any;
+}
 
 const CartPage = () => {
+  const cartItems = useSelector((state: CartState) => state.cart.cartItems);
+
+  const totalPrice = cartItems
+    .reduce((acc: number, item: any) => acc + item.newPrice, 0)
+    .toFixed(2);
+
   return (
     <>
       <div className="flex mt-12 h-full flex-col overflow-hidden bg-white shadow-xl">
@@ -21,52 +35,58 @@ const CartPage = () => {
           </div>
           <div className="mt-8">
             <div className="flow-root">
-              <ul role="list" className="-my-6 divide-y divide-gray-200">
-                <li className="flex py-6">
-                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                    <img
-                      alt=""
-                      src="../assets/books/book-1.png"
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-
-                  <div className="ml-4 flex flex-1 flex-col">
-                    <div>
-                      <div className="flex flex-wrap justify-between text-base font-medium text-gray-900">
-                        <h3>
-                          <Link to="/">Product Title</Link>
-                        </h3>
-                        <p className="sm:ml-4">$50</p>
+              {cartItems.length > 0 ? (
+                <ul role="list" className="-my-6 divide-y divide-gray-200">
+                  {cartItems.map((product: Book) => (
+                    <li key={product?._id} className="flex py-6">
+                      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <img
+                          alt="book cover"
+                          src={`${getImgUrl(product.coverImage)}`}
+                          className="h-full w-full object-cover object-center"
+                        />
                       </div>
-                      <p className="mt-1 text-sm text-gray-500 capitalize">
-                        <strong>Category:</strong> Fiction
-                      </p>
-                    </div>
-                    <div className="flex flex-1 flex-wrap items-end justify-between space-y-2 text-sm">
-                      <p className="text-gray-500">
-                        <strong>Qty:</strong> 1
-                      </p>
 
-                      <div className="flex">
-                        <button
-                          type="button"
-                          className="font-medium text-indigo-600 hover:text-indigo-500"
-                        >
-                          Remove
-                        </button>
+                      <div className="ml-4 flex flex-1 flex-col">
+                        <div>
+                          <div className="flex flex-wrap justify-between text-base font-medium text-gray-900">
+                            <h3>
+                              <Link to="/">{product?.title}</Link>
+                            </h3>
+                            <p className="sm:ml-4">${product.newPrice}</p>
+                          </div>
+                          <p className="mt-1 text-sm text-gray-500 capitalize">
+                            <strong>Category: </strong> {product?.category}
+                          </p>
+                        </div>
+                        <div className="flex flex-1 flex-wrap items-end justify-between space-y-2 text-sm">
+                          <p className="text-gray-500">
+                            <strong>Qty:</strong> 1
+                          </p>
+
+                          <div className="flex">
+                            <button
+                              type="button"
+                              className="font-medium text-indigo-600 hover:text-indigo-500"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No products found!</p>
+              )}
             </div>
           </div>
         </div>
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
           <div className="flex justify-between text-base font-medium text-gray-900">
             <p>Subtotal</p>
-            <p>$0</p>
+            <p>${totalPrice ? totalPrice : 0}</p>
           </div>
           <p className="mt-0.5 text-sm text-gray-500">
             Shipping and taxes calculated at checkout.
