@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import type { Book } from "../../models/Book";
 import getImgUrl from "../../utils/getImg";
+import { clearCart, removeFromCart } from "../../redux/features/cart/cartSlice";
 
 interface CartState {
   cartItems: Book[];
@@ -10,10 +11,21 @@ interface CartState {
 
 const CartPage = () => {
   const cartItems = useSelector((state: CartState) => state.cart.cartItems);
+  const dispatch = useDispatch();
 
   const totalPrice = cartItems
     .reduce((acc: number, item: any) => acc + item.newPrice, 0)
     .toFixed(2);
+
+  const handleRemoveFromCart = (product: Book) => {
+    console.log("first", product);
+
+    dispatch(removeFromCart(product));
+  };
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
 
   return (
     <>
@@ -26,7 +38,7 @@ const CartPage = () => {
             <div className="ml-3 flex h-7 items-center ">
               <button
                 type="button"
-                // onClick={handleClearCart}
+                onClick={handleClearCart}
                 className="relative -m-2 py-1 px-2 bg-red-500 text-white rounded-md hover:bg-secondary transition-all duration-200  "
               >
                 <span className="">Clear Cart</span>
@@ -68,6 +80,7 @@ const CartPage = () => {
                             <button
                               type="button"
                               className="font-medium text-indigo-600 hover:text-indigo-500"
+                              onClick={() => handleRemoveFromCart(product)}
                             >
                               Remove
                             </button>
