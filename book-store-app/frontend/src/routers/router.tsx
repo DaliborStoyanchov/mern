@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home.tsx";
 import Login from "../components/Login/Login.tsx";
 import Register from "../components/Register/Register.tsx";
 import CartPage from "../pages/Books/CartPage.tsx";
+import CheckoutPage from "../pages/Books/CheckoutPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <CartPage />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />,
       },
     ],
   },
