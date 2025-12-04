@@ -1,6 +1,34 @@
 import { Link } from "react-router-dom";
+import type { Book } from "../../models/Book";
+import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+
+interface CartState {
+  cartItems: Book[];
+  cart: any;
+}
 
 const CheckoutPage = () => {
+  const cartItems = useSelector((state: CartState) => state.cart.cartItems);
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const totalPrice = cartItems
+    .reduce((acc: number, item: any) => acc + item.newPrice, 0)
+    .toFixed(2);
+
+  const currentUser = true; //TODO: get user from auth
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => console.log(data);
+
   return (
     <section>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
