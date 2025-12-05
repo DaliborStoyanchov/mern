@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import type { Book } from "../../models/Book";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -12,22 +11,40 @@ interface CartState {
 const CheckoutPage = () => {
   const cartItems = useSelector((state: CartState) => state.cart.cartItems);
 
-  const [isChecked, setIsChecked] = useState(false);
-
   const totalPrice = cartItems
     .reduce((acc: number, item: any) => acc + item.newPrice, 0)
     .toFixed(2);
 
-  const currentUser = true; //TODO: get user from auth
-
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => console.log(data);
+  console.log(errors);
+
+  const currentUser = {
+    email: "test@test.com",
+  };
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const onSubmit = (data: any) => {
+    const newOrder = {
+      name: data.name,
+      email: currentUser?.email,
+      address: {
+        city: data.city,
+        country: data.country,
+        state: data.state,
+        zipcode: data.zipcode,
+      },
+      phone: data.phone,
+      productIds: cartItems.map((item: Book) => item?._id),
+      totalPrice: totalPrice,
+    };
+    console.log(newOrder);
+  };
 
   return (
     <section>
@@ -38,13 +55,15 @@ const CheckoutPage = () => {
               <h2 className="font-semibold text-xl text-gray-600 mb-2">
                 Cash On Delivery
               </h2>
-              <p className="text-gray-500 mb-2">Total Price: $0</p>
-              <p className="text-gray-500 mb-6">Items:0</p>
+              <p className="text-gray-500 mb-2">Total Price: ${totalPrice}</p>
+              <p className="text-gray-500 mb-6">
+                Items: {cartItems.length > 0 ? cartItems.length : 0}
+              </p>
             </div>
 
             <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
               <form
-                // onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit)}
                 className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3 my-8"
               >
                 <div className="text-gray-600">
@@ -57,6 +76,7 @@ const CheckoutPage = () => {
                     <div className="md:col-span-5">
                       <label htmlFor="full_name">Full Name</label>
                       <input
+                        {...register("name", { required: true })}
                         type="text"
                         name="name"
                         id="name"
@@ -72,13 +92,14 @@ const CheckoutPage = () => {
                         id="email"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                         disabled
-                        // defaultValue={currentUser?.email}
+                        defaultValue={currentUser?.email}
                         placeholder="email@domain.com"
                       />
                     </div>
                     <div className="md:col-span-5">
                       <label>Phone Number</label>
                       <input
+                        {...register("phone", { required: true })}
                         type="number"
                         name="phone"
                         id="phone"
@@ -90,6 +111,7 @@ const CheckoutPage = () => {
                     <div className="md:col-span-3">
                       <label htmlFor="address">Address / Street</label>
                       <input
+                        {...register("address", { required: true })}
                         type="text"
                         name="address"
                         id="address"
@@ -101,6 +123,7 @@ const CheckoutPage = () => {
                     <div className="md:col-span-2">
                       <label htmlFor="city">City</label>
                       <input
+                        {...register("city", { required: true })}
                         type="text"
                         name="city"
                         id="city"
@@ -113,15 +136,13 @@ const CheckoutPage = () => {
                       <label htmlFor="country">Country / region</label>
                       <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
                         <input
+                          {...register("country", { required: true })}
                           name="country"
                           id="country"
                           placeholder="Country"
                           className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
                         />
-                        <button
-                          // tabIndex="-1"
-                          className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
-                        >
+                        <button className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600">
                           <svg
                             className="w-4 h-4 mx-2 fill-current"
                             xmlns="http://www.w3.org/2000/svg"
@@ -135,10 +156,7 @@ const CheckoutPage = () => {
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                           </svg>
                         </button>
-                        <button
-                          // tabIndex="-1"
-                          className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600"
-                        >
+                        <button className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600">
                           <svg
                             className="w-4 h-4 mx-2 fill-current"
                             xmlns="http://www.w3.org/2000/svg"
@@ -158,6 +176,7 @@ const CheckoutPage = () => {
                       <label htmlFor="state">State / province</label>
                       <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
                         <input
+                          {...register("state", { required: true })}
                           name="state"
                           id="state"
                           placeholder="State"
@@ -177,10 +196,7 @@ const CheckoutPage = () => {
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                           </svg>
                         </button>
-                        <button
-                          // tabIndex="-1"
-                          className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600"
-                        >
+                        <button className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600">
                           <svg
                             className="w-4 h-4 mx-2 fill-current"
                             xmlns="http://www.w3.org/2000/svg"
@@ -199,6 +215,7 @@ const CheckoutPage = () => {
                     <div className="md:col-span-1">
                       <label htmlFor="zipcode">Zipcode</label>
                       <input
+                        {...register("zipcode", { required: true })}
                         type="text"
                         name="zipcode"
                         id="zipcode"
@@ -210,26 +227,21 @@ const CheckoutPage = () => {
                     <div className="md:col-span-5 mt-3">
                       <div className="inline-flex items-center">
                         <input
+                          onChange={(e) => setIsChecked(e.target.checked)}
                           type="checkbox"
                           name="billing_same"
                           id="billing_same"
                           className="form-checkbox"
                         />
                         <label htmlFor="billing_same" className="ml-2 ">
-                          I am agree to the{" "}
-                          <Link
-                            to={""}
-                            className="underline underline-offset-2 text-blue-600"
-                          >
+                          I agree with the{" "}
+                          <a className="underline underline-offset-2 text-blue-600">
                             Terms & Conditions
-                          </Link>{" "}
+                          </a>
                           and{" "}
-                          <Link
-                            to={""}
-                            className="underline underline-offset-2 text-blue-600"
-                          >
+                          <a className="underline underline-offset-2 text-blue-600">
                             Shopping Policy.
-                          </Link>
+                          </a>
                         </label>
                       </div>
                     </div>
@@ -237,7 +249,7 @@ const CheckoutPage = () => {
                     <div className="md:col-span-5 text-right">
                       <div className="inline-flex items-end">
                         <button
-                          // disabled={!isChecked}
+                          disabled={!isChecked}
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
                           Place an Order
