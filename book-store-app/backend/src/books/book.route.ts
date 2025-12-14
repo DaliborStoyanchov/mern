@@ -1,9 +1,8 @@
-import express from "express";
+import { Router } from "express";
+import { createBook } from "./book.controller.ts";
 
-const router = express.Router();
+const router = Router();
 
-router.post("/create-book", async (req, res) => {
-  console.log(req.body);
-});
+router.post("/", createBook);
 
 export default router;
