@@ -45,13 +45,32 @@ export const createBook = async (req: Request, res: Response) => {
 
 export const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find();
+    const books = await Book.find().sort({ createdAt: -1 });
 
     res.status(200).json({ message: "Books fetched successfully", books });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       message: "Failed to fetch books",
+    });
+  }
+};
+
+export const getABook = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const book = await Book.findById(id);
+
+    if (!book) {
+      res.status(404).json({ message: "Book not found" });
+    }
+
+    res.status(200).json({ message: "Book fetched successfully", book });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Failed to fetch a book",
     });
   }
 };
