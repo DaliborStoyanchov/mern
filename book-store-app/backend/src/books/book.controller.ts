@@ -19,11 +19,11 @@ export const createBook = async (req: Request, res: Response) => {
       !category ||
       trending === undefined ||
       !coverImage
-    ) {
-      return res.status(400).json({
+    )
+      res.status(400).json({
         message: "Missing required fields",
       });
-    }
+
     const book = await Book.create({
       title,
       description,
@@ -43,7 +43,7 @@ export const createBook = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllBooks = async (req, res) => {
+export const getAllBooks = async (req: Request, res: Response) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
 
@@ -56,21 +56,38 @@ export const getAllBooks = async (req, res) => {
   }
 };
 
-export const getABook = async (req, res) => {
+export const getABook = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
     const book = await Book.findById(id);
 
-    if (!book) {
-      res.status(404).json({ message: "Book not found" });
-    }
+    if (!book) res.status(404).json({ message: "Book not found" });
 
     res.status(200).json({ message: "Book fetched successfully", book });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       message: "Failed to fetch a book",
+    });
+  }
+};
+
+export const updateBook = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const updatedBook = await Book.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    if (!updateBook) res.status(404).json({ message: "Book not found" });
+
+    res.status(200).json({ message: "Book updated successfully", updatedBook });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Failed to update a book",
     });
   }
 };
