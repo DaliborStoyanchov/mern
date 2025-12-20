@@ -1,12 +1,4 @@
-import {
-  createApi,
-  fetchBaseQuery,
-  type BaseQueryApi,
-  type BaseQueryFn,
-  type EndpointBuilder,
-  type EndpointDefinitions,
-  type QueryReturnValue,
-} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import getBaseUrl from "../../../utils/baseUrl";
 
 const baseQuery = fetchBaseQuery({
@@ -23,28 +15,16 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const bookApi = createApi({
+export const booksApi = createApi({
   reducerPath: "bookApi",
-  baseQuery: function (
-    args: any,
-    api: BaseQueryApi,
-    extraOptions: {}
-  ):
-    | QueryReturnValue<unknown, unknown, {}>
-    | PromiseLike<QueryReturnValue<unknown, unknown, {}>> {
-    console.log(args, api, extraOptions);
-    throw new Error("Function not implemented.");
-  },
-  endpoints: function (
-    build: EndpointBuilder<
-      BaseQueryFn<any, unknown, unknown, {}, {}>,
-      never,
-      "booksApi"
-    >
-  ): EndpointDefinitions {
-    console.log(build);
-    throw new Error("Function not implemented.");
-  },
+  baseQuery,
+  tagTypes: ["Books"],
+  endpoints: (builder) => ({
+    fetchAllBooks: builder.query({
+      query: () => "/",
+      providesTags: ["Books"],
+    }),
+  }),
 });
 
-console.log(baseQuery, bookApi);
+export const { useFetchAllBooksQuery } = booksApi;
