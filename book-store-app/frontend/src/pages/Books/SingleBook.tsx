@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useFetchBookByIdQuery } from "../../redux/features/books/booksApi";
 import getImgUrl from "../../utils/getImg";
+import { FiShoppingCart } from "react-icons/fi";
 
 const SingleBook = () => {
   const { id } = useParams();
@@ -33,7 +34,18 @@ const SingleBook = () => {
             <strong>Published:</strong>{" "}
             {new Date(book?.createdAt).toLocaleDateString()}
           </p>
+          <p className="text-gray-700 mb-4 capitalize">
+            <strong>Category:</strong>
+            {book?.category}
+          </p>
+          <p className="text-gray-700">
+            <strong>Description:</strong>
+            {book?.description}
+          </p>
         </div>
+        <button>
+          <FiShoppingCart />
+        </button>
       </div>
     </div>
   );
